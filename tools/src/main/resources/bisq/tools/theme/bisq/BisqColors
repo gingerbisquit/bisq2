@@ -1,0 +1,38 @@
+TODO: get rid of button-borders, size and hover look (hover is darker than button and armed, also get rid of round corner
+//**figure out why background is that bright ... should be #29292a dark...**//
+TODO: buttons are messed up, too pale or generally wrong....
+TODO: menu buttons should have a broader border
+TODO: TableView have green selected backgrounds
+
+
+
+
+
+
+
+#1f1f1f general grey background
+#1b1b1b offer book background
+#333334 dropdown grey bg
+#212122 text field bg
+#5a5a5a button bg
+
+
+#2ea33c default green (buttons, ..
+#54ad48 logo green
+#35bc00 peers antenna green
+#25b135 offerbook text green
+#006600 buy btc green
+
+#5f0000 sell byc btn red
+
+
+#5a5a5a normal button grey
+#484749 hover button grey
+
+
+how to calculate brightness of background and derive foreground text color from it.
+https://css-tricks.com/switch-font-color-for-different-backgrounds-with-css/
+
+for javaFX use the ladder function. for example in this case the text-fill would be black, since the background is bright
+background: white;
+-fx-text-fill: ladder(background, white 49%, black 50%);
