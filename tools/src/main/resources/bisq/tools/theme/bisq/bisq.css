@@ -120,9 +120,9 @@ is being used to size a border should also be in pixels.
      * -fx-text-fill value for text painted on top of backgrounds colored
      * with -fx-control-inner-background.
      */
-    -fx-control-inner-background: derive(-fx-base,80%);
+    -fx-control-inner-background: derive(-fx-base,-19%);
     /* Version of -fx-control-inner-background for alternative rows */
-    -fx-control-inner-background-alt: derive(-fx-control-inner-background,-2%);
+    -fx-control-inner-background-alt: derive(-fx-control-inner-background,-30%);
 
     /* One of these colors will be chosen based upon a ladder calculation
      * that uses the brightness of a background color.  Instead of using these
@@ -144,7 +144,7 @@ is being used to size a border should also be in pixels.
 
     /* Default buttons color, this is similar to accent but more subtle
     as in bisq_1 derived from -fx-accent */
-    -fx-default-button: derive(-fx-accent, 95%);
+    -fx-default-button: derive(-fx-accent, 2%);
 
     /* A bright blue for the focus indicator of objects. Typically used as the
      * first color in -fx-background-color for the "focused" pseudo-class. Also
@@ -203,22 +203,24 @@ is being used to size a border should also be in pixels.
     /* A little lighter than -fx-base and used as the -fx-color for the
      * "hovered" pseudoclass state.
      */
-    -fx-hover-base: ladder(
+     -fx-hover-base: derive(-fx-base, -25%);
+    /*-fx-hover-base: ladder(
         -fx-base,
         derive(-fx-base,20%) 20%,
         derive(-fx-base,30%) 35%,
         derive(-fx-base,40%) 50%
-     );
+     );*/
 
     /* A little darker than -fx-base and used as the -fx-color for the
      * "armed" pseudoclass state.
      *
      * TODO: should this be renamed to -fx-armed-base?
      */
-    -fx-pressed-base: derive(-fx-base,-6%);
+    -fx-pressed-base: derive(-fx-base,10%);
 
     /* The color to use for -fx-text-fill when text is to be painted on top of
      * a background filled with the -fx-background color.
+     * this is probalby designed to change brightness according to background
      */
     -fx-text-background-color: ladder(
         -fx-background,
@@ -230,12 +232,15 @@ is being used to size a border should also be in pixels.
 
     /* A little darker than -fx-color and used to draw boxes around objects such
      * as progress bars, scroll bars, scroll panes, trees, tables, and lists.
+     * should be green...
      */
+     -fx-box-border: derive(-fx-accent, -20%);
+     /*
     -fx-box-border: ladder(
         -fx-color,
         black 20%,
         derive(-fx-color,-15%) 30%
-    );
+    );*/
 
     /* Darker than -fx-background and used to draw boxes around text boxes and
      * password boxes.
@@ -272,6 +277,8 @@ is being used to size a border should also be in pixels.
      * -fx-background-color list as a thin highlight inside the outer border.
      * Insets are typically 1.
      */
+     -fx-inner-border: derive(-fx-color,55%);
+     /*
     -fx-inner-border: linear-gradient(to bottom,
                 ladder(
                     -fx-color,
@@ -289,7 +296,7 @@ is being used to size a border should also be in pixels.
                     derive(-fx-color,5%) 40%,
                     derive(-fx-color,-2%) 60%,
                     derive(-fx-color,-5%) 100%
-                ));
+                ));*/
     -fx-inner-border-horizontal: linear-gradient(to right, derive(-fx-color,55%), derive(-fx-color,-5%));
     -fx-inner-border-bottomup: linear-gradient(to top, derive(-fx-color,55%), derive(-fx-color,-5%));
 
@@ -372,9 +379,9 @@ is being used to size a border should also be in pixels.
     -fx-background-insets: inherit;
     -fx-padding: inherit;
 
-    /* The color to use in ListView/TreeView/TableView to indicate hover. */
-    -fx-cell-hover-color: #cce3f4;
-
+    /* The color to use in ListView/TreeView/TableView to indicate hover.
+    * -fx-cell-hover-color: #cce3f4;*/
+    -fx-cell-hover-color: derive(-fx-accent, 90%);
     /** Focus line for keyboard focus traversal on cell based controls */
     -fx-cell-focus-inner-border: derive(-fx-selection-bar,30%);
 
@@ -435,13 +442,26 @@ is being used to size a border should also be in pixels.
 .color-picker.split-button > .color-picker-label,
 .combo-box-base,
 .combo-box-base:editable > .arrow-button {
+/* inserted the button definition from bisq1 here */
+    -fx-background-color: derived(-fx-body-color, 25%);
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-font-size: 0.923em;
+    -fx-font-weight: normal;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 32;
+    -fx-min-height: -fx-pref-height;
+    -fx-padding: 0 40 0 40;
+    /*-fx-effect: dropshadow(gaussian, -fx-text-inner-color, 2, 0, 0, 0, 1);*/
+    -fx-cursor: hand;
+
+/*
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
-    -fx-background-radius: 3px, 3px, 2px, 1px;
-    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-background-radius: 3px, 3px, 2px, 2px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 *//*
     -fx-text-fill: -fx-text-base-color;
     -fx-alignment: CENTER;
-    -fx-content-display: LEFT;
+    -fx-content-display: LEFT;*/
 }
 .menu-button > .label {
     -fx-alignment: CENTER_LEFT;
@@ -496,9 +516,10 @@ is being used to size a border should also be in pixels.
 .color-picker.split-button:focused > .color-picker-label,
 .combo-box-base:focused,
 .slider:focused .thumb {
-    -fx-background-color: -fx-focus-color, -fx-inner-border, -fx-body-color, -fx-faint-focus-color, -fx-body-color;
-    -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
-    -fx-background-radius: 3, 2, 1, 4, 1;
+    /*-fx-background-color: -fx-focus-color, -fx-inner-border, -fx-body-color, -fx-faint-focus-color, -fx-body-color;
+
+     -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
+    -fx-background-radius: 3, 2, 1, 4, 1;*/
 }
 
 /* ====   DISABLED THINGS   ================================================= */
@@ -550,7 +571,7 @@ is being used to size a border should also be in pixels.
 }
 
 /* ====   MNEMONIC THINGS   ================================================= */
-
+/*is this used at all?*/
 .mnemonic-underline {
     -fx-stroke: transparent;
 }
@@ -795,7 +816,8 @@ is being used to size a border should also be in pixels.
  ******************************************************************************/
 
 .check-box {
-    -fx-label-padding: 0.0em 0.0em 0.0em 0.416667em; /* 0 0 0 5 */
+    -fx-label-padding: 0.0em 0.0em 0.0em 0.0em;
+    /*-fx-label-padding: 0.0em 0.0em 0.0em 0.416667em;  /*0 0 0 5 */
     -fx-text-fill: -fx-text-background-color;
 }
 .check-box > .box {
@@ -805,7 +827,8 @@ is being used to size a border should also be in pixels.
 .check-box > .box > .mark {
     -fx-background-color: null;
     -fx-padding: 0.416667em 0.416667em 0.5em 0.5em; /* 5 5 6 6 */
-    -fx-shape: "M-0.25,6.083c0.843-0.758,4.583,4.833,5.75,4.833S14.5-1.5,15.917-0.917c1.292,0.532-8.75,17.083-10.5,17.083C3,16.167-1.083,6.833-0.25,6.083z";
+    fx-shape: "M-0.25,6.083c0.843-0.758,4.583,4.833,5.75,4.833S14.5-1.5,15.917-0.917c1.292,0.532-8.75,17.083-10.5,17.083C3,16.167-1.083,6.833-0.25,6.083z";
+    /*--fx-shape: "M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z";  /*das ist ein X-shape*/
 }
 .check-box:indeterminate > .box {
     -fx-padding: 0;

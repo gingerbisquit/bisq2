@@ -2,12 +2,12 @@ TODO: get rid of button-borders, size and hover look (hover is darker than butto
 //**figure out why background is that bright ... should be #29292a dark...**//
 TODO: buttons are messed up, too pale or generally wrong....
 TODO: menu buttons should have a broader border
-TODO: TableView have green selected backgrounds
+TODO: TableView background too bright
 
 
 
-
-
+-fx-color = -fx-base:   #383838 => dark-grey
+-fx-accent: #25b135; => bright-green
 
 
 #1f1f1f general grey background

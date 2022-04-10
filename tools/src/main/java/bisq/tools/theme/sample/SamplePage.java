@@ -141,23 +141,23 @@ public class SamplePage extends GridPane {
         
         
         newSection("Button:",
-                new Button("Button"),
-                withState(new Button("Hover"), "hover"),
-                withState(new Button("Armed"), "armed"),
-                withState(new Button("Focused"), "focused"),
-                withState(new Button("Focused & Hover"), "focused, hover"),
-                withState(new Button("Focused & Armed"), "focused, armed"),
-                withState(new Button("Disabled"), "disabled"));
-        Button defaultButton = new Button("Button");
+                new Button("BUTTON"),
+                withState(new Button("HOVER"), "hover"),
+                withState(new Button("ARMED"), "armed"),
+                withState(new Button("FOCUSSED"), "focused"),
+                withState(new Button("FOCUSSED & HOVER"), "focused, hover"),
+                withState(new Button("FOCUSSED & ARMED"), "focused, armed"),
+                withState(new Button("DISABLED"), "disabled"));
+        Button defaultButton = new Button("BUTTON");
         defaultButton.setDefaultButton(true);
         newSection("Default Button:",
                 defaultButton,
-                withState(new Button("Hover"), "default, hover"),
-                withState(new Button("Armed"), "default, armed"),
-                withState(new Button("Focused"), "default, focused"),
-                withState(new Button("Focused & Hover"), "default, focused, hover"),
-                withState(new Button("Focused & Armed"), "default, focused, armed"),
-                withState(new Button("Disabled"), "default, disabled"));
+                withState(new Button("HOVER"), "default, hover"),
+                withState(new Button("ARMED"), "default, armed"),
+                withState(new Button("FOCUSSED"), "default, focused"),
+                withState(new Button("FOCUSSED & HOVER"), "default, focused, hover"),
+                withState(new Button("FOCUSSED & ARMED"), "default, focused, armed"),
+                withState(new Button("DISABLED"), "default, disabled"));
         Button b1 = new Button("Button");
         b1.setStyle("-fx-base: #f3622d;");
         Button b2 = new Button("Button");
