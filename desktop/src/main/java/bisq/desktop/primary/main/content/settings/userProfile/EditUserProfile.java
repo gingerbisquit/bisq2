@@ -172,16 +172,17 @@ public class EditUserProfile {
             bio = bioBox.getSecond();
             bioTextArea = bioBox.getThird();
 
+            Triple<VBox, Label, BisqTextArea> termsBox = getEditableInfoBox(Res.get("social.chat.chatRules.headline"));
+            terms = termsBox.getSecond();
+            terms.setText(Res.get("social.chat.chatRules.content")); //todo
+            termsTextArea = termsBox.getThird();
+
             Pair<VBox, Label> reputationScoreBox = getInfoBox(Res.get("social.chatUser.reputationScore"));
             reputationScore = reputationScoreBox.getSecond();
 
             Pair<VBox, Label> profileAgeBox = getInfoBox(Res.get("social.chatUser.profileAge"));
             profileAge = profileAgeBox.getSecond();
 
-            Triple<VBox, Label, BisqTextArea> termsBox = getEditableInfoBox(Res.get("social.chat.chatRules.headline"));
-            terms = termsBox.getSecond();
-            terms.setText(Res.get("social.chat.chatRules.content")); //todo
-            termsTextArea = termsBox.getThird();
 
             editButton = new Button(Res.get("edit"));
 
@@ -203,7 +204,7 @@ public class EditUserProfile {
             VBox.setMargin(editButton, new Insets(20, 0, 0, 0));
             VBox.setMargin(buttonBar, new Insets(20, 0, 0, 0));
             VBox mainVBox = new VBox(10, headlineLabel, nameAndIconBox,
-                    bioBox.getFirst(), reputationScoreBox.getFirst(), profileAgeBox.getFirst(), termsBox.getFirst(), editButton, buttonBar);
+                    bioBox.getFirst(),termsBox.getFirst(), reputationScoreBox.getFirst(), profileAgeBox.getFirst(), editButton, buttonBar);
             mainVBox.getStyleClass().add("bisq-box-2");
             mainVBox.setPadding(new Insets(30));
 

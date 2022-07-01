@@ -32,7 +32,7 @@ import org.fxmisc.easybind.Subscription;
 
 @Slf4j
 public class UserProfileView extends View<VBox, UserProfileModel, UserProfileController> {
-    private final Button createNewProfileButton;
+    private final Button createNewProfileButton, cancelProfileButton;
     private Subscription chatUserDetailsPin;
 
     public UserProfileView(UserProfileModel model,
@@ -53,8 +53,12 @@ public class UserProfileView extends View<VBox, UserProfileModel, UserProfileCon
         createNewProfileButton.setDefaultButton(true);
         createNewProfileButton.setMinWidth(300);
 
+        cancelProfileButton = new Button("Delete this profile");    //todo
+        cancelProfileButton.setDefaultButton(false);
+        cancelProfileButton.setMinWidth(300);
+
         VBox.setMargin(createNewProfileButton, new Insets(-15,0,0,0));
-        root.getChildren().addAll(selectionVBox, new Pane(), createNewProfileButton, Spacer.fillVBox());
+        root.getChildren().addAll(selectionVBox, new Pane(), createNewProfileButton, cancelProfileButton, Spacer.fillVBox());
     }
 
     @Override
