@@ -53,6 +53,7 @@ public class GenerateProfileController implements Controller {
     protected Subscription nickNameSubscription;
 
     public GenerateProfileController(DefaultApplicationService applicationService) {
+
         keyPairService = applicationService.getKeyPairService();
         proofOfWorkService = applicationService.getSecurityService().getProofOfWorkService();
         chatUserService = applicationService.getChatUserService();

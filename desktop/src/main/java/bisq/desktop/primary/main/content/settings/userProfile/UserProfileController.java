@@ -65,4 +65,8 @@ public class UserProfileController implements Controller {
     public void onAddNewChatUser() {
         Navigation.navigateTo(CREATE_PROFILE_STEP1);
     }
+
+    public void onDeleteChatUser() {
+        chatUserService.deleteChatUser(chatUserService.getSelectedChatUserIdentity().get());
+    }
 }

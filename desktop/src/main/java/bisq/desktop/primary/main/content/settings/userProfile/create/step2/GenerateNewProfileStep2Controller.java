@@ -19,31 +19,67 @@ package bisq.desktop.primary.main.content.settings.userProfile.create.step2;
 
 import bisq.application.DefaultApplicationService;
 import bisq.desktop.common.view.Controller;
+import bisq.desktop.components.robohash.RoboHash;
 import bisq.desktop.primary.overlay.OverlayController;
+import bisq.desktop.primary.overlay.onboarding.profile.GenerateProfileModel;
+import bisq.desktop.primary.overlay.onboarding.profile.GenerateProfileView;
+import bisq.desktop.primary.overlay.onboarding.profile.TempIdentity;
+import bisq.security.pow.ProofOfWorkService;
 import bisq.social.user.ChatUserService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.fxmisc.easybind.EasyBind;
+import org.fxmisc.easybind.Subscription;
 
 @Slf4j
 public class GenerateNewProfileStep2Controller implements Controller {
-    private final GenerateNewProfileStep2Model model;
+    protected final GenerateNewProfileStep2Model model;
     @Getter
-    private final GenerateNewProfileStep2View view;
-    private final ChatUserService chatUserService;
+    protected final GenerateNewProfileStep2View view;
+    protected final ChatUserService chatUserService;
+    protected final ProofOfWorkService proofOfWorkService;
+//    private GenerateNewProfileStep2Model getGenerateNewProfileStep2Model;
+//    private GenerateNewProfileStep2Model getGenerateNewProfileStep2View;
+
+    protected Subscription nickNameSubscription;
 
     public GenerateNewProfileStep2Controller(DefaultApplicationService applicationService) {
-        chatUserService = applicationService.getChatUserService();
 
-        model = new GenerateNewProfileStep2Model();
-        view = new GenerateNewProfileStep2View(model, this);
+        chatUserService = applicationService.getChatUserService();
+        proofOfWorkService = applicationService.getSecurityService().getProofOfWorkService();
+
+        model = getGenerateNewProfileStep2Model();
+        view = getGenerateNewProfileStep2View();
+    }
+    protected GenerateNewProfileStep2View getGenerateNewProfileStep2View() {
+        return new GenerateNewProfileStep2View(model, this);
+    }
+
+    protected GenerateNewProfileStep2Model getGenerateNewProfileStep2Model() {
+        return new GenerateNewProfileStep2Model();
     }
 
     @Override
     public void onActivate() {
+        nickNameSubscription = EasyBind.subscribe(model.getNickName(),
+                nickName -> {
+                    TempIdentity tempIdentity = model.getTempIdentity().get();
+                    if (tempIdentity != null) {
+                        model.getNymId().set(tempIdentity.getProfileId());
+                    }
+
+                    model.getCreateProfileButtonDisabled().set(model.getCreateProfileProgress().get() == -1 ||
+                            nickName == null || nickName.isEmpty());
+                });
+        model.getRoboHashImage().set(RoboHash.getImage(chatUserService.getSelectedChatUserIdentity().get()
+                .getChatUser().getProofOfWork().getPayload()));
     }
 
     @Override
     public void onDeactivate() {
+        if (nickNameSubscription != null) {
+            nickNameSubscription.unsubscribe();
+        }
     }
 
     private void onSave() {

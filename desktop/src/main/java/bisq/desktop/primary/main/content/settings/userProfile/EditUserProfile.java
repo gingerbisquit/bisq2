@@ -93,7 +93,7 @@ public class EditUserProfile {
 
         public void onEdit() {
             //todo
-            Navigation.navigateTo(NavigationTarget.CREATE_PROFILE_STEP1);
+            Navigation.navigateTo(NavigationTarget.CREATE_PROFILE_STEP2);
            
            // model.isEditMode.set(true);
         }

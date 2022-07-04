@@ -181,6 +181,21 @@ public class ChatUserService implements PersistenceClient<ChatUserStore> {
                 .thenCompose(result -> networkService.publishAuthenticatedData(newChatUser, identity.getNodeIdAndKeyPair()));
     }
 
+    public CompletableFuture<DataService.BroadCastDataResult> deleteChatUser(ChatUserIdentity chatUserIdentity) {
+        synchronized (lock) {
+            persistableStore.getChatUserIdentities().remove(chatUserIdentity);
+            persistableStore.getChatUserIdentities().stream().findAny()
+                    .ifPresentOrElse(e -> persistableStore.getSelectedChatUserIdentity().set(e),
+                            () -> persistableStore.getSelectedChatUserIdentity().set(null));
+        }
+        persist();
+        return networkService.removeAuthenticatedData(chatUserIdentity.getChatUser(),
+                chatUserIdentity.getIdentity().getNodeIdAndKeyPair());
+    }
+
+
+
+
     public void replaceChatUser(ChatUser newChatUser) {
         findChatUserIdentity(newChatUser.getNym())
                 .ifPresent(chatUserIdentity -> {
@@ -194,6 +209,7 @@ public class ChatUserService implements PersistenceClient<ChatUserStore> {
                     persist();
                 });
     }
+
 
     public CompletableFuture<Boolean> maybePublishChatUser(ChatUser chatUser, Identity identity) {
         String chatUserId = chatUser.getId();
