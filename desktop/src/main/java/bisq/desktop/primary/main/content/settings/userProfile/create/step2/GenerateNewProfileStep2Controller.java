@@ -61,16 +61,21 @@ public class GenerateNewProfileStep2Controller implements Controller {
 
     @Override
     public void onActivate() {
-        nickNameSubscription = EasyBind.subscribe(model.getNickName(),
-                nickName -> {
-                    TempIdentity tempIdentity = model.getTempIdentity().get();
-                    if (tempIdentity != null) {
-                        model.getNymId().set(tempIdentity.getProfileId());
-                    }
+//        model.nym.set(chatUser.getNym());
+        model.getNickName().set(chatUserService.getSelectedChatUserIdentity().get().getNickName());
+        model.getNymId().set(chatUserService.getSelectedChatUserIdentity().get().getChatUser().getNym());
+//        model.nickName.set(chatUser.getNickName());
 
-                    model.getCreateProfileButtonDisabled().set(model.getCreateProfileProgress().get() == -1 ||
-                            nickName == null || nickName.isEmpty());
-                });
+//        nickNameSubscription = EasyBind.subscribe(model.getNickName(),
+//                nickName -> {
+//                    TempIdentity tempIdentity = model.getTempIdentity().get();
+//                    if (tempIdentity != null) {
+//                        model.getNymId().set(tempIdentity.getProfileId());
+//                    }
+//
+//                    model.getCreateProfileButtonDisabled().set(model.getCreateProfileProgress().get() == -1 ||
+//                            nickName == null || nickName.isEmpty());
+//                });
         model.getRoboHashImage().set(RoboHash.getImage(chatUserService.getSelectedChatUserIdentity().get()
                 .getChatUser().getProofOfWork().getPayload()));
     }

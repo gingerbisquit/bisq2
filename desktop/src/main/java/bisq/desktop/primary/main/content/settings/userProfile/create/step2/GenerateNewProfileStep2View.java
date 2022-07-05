@@ -21,8 +21,10 @@ import bisq.desktop.common.view.Model;
 import bisq.desktop.common.view.Navigation;
 import bisq.desktop.common.view.NavigationTarget;
 import bisq.desktop.common.view.View;
+import bisq.desktop.components.controls.TextInputBox;
 import bisq.desktop.components.robohash.RoboHash;
 import bisq.desktop.primary.main.content.settings.userProfile.EditUserProfile;
+import bisq.desktop.primary.overlay.onboarding.profile.TempIdentity;
 import bisq.i18n.Res;
 import bisq.social.user.ChatUser;
 import bisq.social.user.ChatUserIdentity;
@@ -49,34 +51,18 @@ import org.fxmisc.easybind.Subscription;
 @Slf4j
 public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileStep2Model, GenerateNewProfileStep2Controller> {
 
-    private final TextArea tacField;
-
     protected final ImageView roboIconView;
 
-    private final TextArea bioField;
+    protected final TextInputBox tacInputBox, credoInputBox;
 
-    private final Label tacFieldLabel;
-
-    private final Label bioFieldLabel;
     private final Button saveButton, cancelButton;
     private final Label nickName, nym;
-    private Subscription selectedChatUserPin;
+
 
 
 
     private static class Model implements bisq.desktop.common.view.Model {
         private final ChatUserIdentity chatUserIdentity;
-//        private final ObjectProperty<Image> roboHashNode = new SimpleObjectProperty<>();
-//        private final StringProperty nym = new SimpleStringProperty();
-//        private final StringProperty nickName = new SimpleStringProperty();
-//        private final StringProperty id = new SimpleStringProperty();
-//        private final StringProperty bio = new SimpleStringProperty();
-//        private final StringProperty terms = new SimpleStringProperty();
-//        private final StringProperty reputationScore = new SimpleStringProperty();
-//        private final StringProperty profileAge = new SimpleStringProperty();
-//        private final BooleanProperty isEditMode = new SimpleBooleanProperty();
-//        private final BooleanProperty isPublishing = new SimpleBooleanProperty();
-//        private final IntegerProperty progress = new SimpleIntegerProperty();
 
         private Model(ChatUserIdentity chatUserIdentity) {
             this.chatUserIdentity = chatUserIdentity;
@@ -86,21 +72,20 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
     public GenerateNewProfileStep2View(GenerateNewProfileStep2Model model, GenerateNewProfileStep2Controller controller) {
         super(new VBox(), model, controller);
 
-        root.setAlignment(Pos.TOP_CENTER);
+        root.setAlignment(Pos.CENTER);
         root.setSpacing(8);
-        root.setPadding(new Insets(10, 0, 10, 0));
+        root.setPadding(new Insets(10, 120, 100, 120));
 
         Label headLineLabel = new Label(Res.get("editUserProfile.headline"));
         headLineLabel.getStyleClass().add("bisq-text-headline-2");
 
         Label subtitleLabel = new Label(Res.get("editUserProfile.subTitle"));
         subtitleLabel.setTextAlignment(TextAlignment.CENTER);
-        subtitleLabel.setMaxWidth(400);
         subtitleLabel.getStyleClass().addAll("bisq-text-3", "wrap-text");
 
         nickName = new Label();
         nickName.getStyleClass().addAll("bisq-text-9", "font-semi-bold");
-        nickName.setAlignment(Pos.CENTER);
+        nickName.setAlignment(Pos.TOP_CENTER);
 
         roboIconView = new ImageView();
         int size = 128;
@@ -109,38 +94,38 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
 
         nym = new Label();
         nym.getStyleClass().addAll("bisq-text-7");
-        nym.setAlignment(Pos.CENTER);
+        nym.setAlignment(Pos.TOP_CENTER);
 
-        VBox nameAndIconBox = new VBox(10, nickName, roboIconView, nym);
+        ///make boxes
+//nick, image, nym
+        VBox nameAndIconBox = new VBox(8, nickName, roboIconView, nym);
         nameAndIconBox.setAlignment(Pos.TOP_CENTER);
+//input fields
+        tacInputBox = new TextInputBox(Res.get("addTAC.userProfile"),
+                Res.get("addTAC.userProfile.prompt"));
+        tacInputBox.setPrefWidth(300);
 
-
-        tacField = new TextArea();
-        tacField.setMaxWidth(400);
-        tacField.setMaxHeight(50);
-        tacFieldLabel = new Label("Chat Rules");
-
-
-        bioField = new TextArea();
-        bioField.setMaxWidth(400);
-        bioField.setMaxHeight(50);
-        bioFieldLabel = new Label("Credo");
+        credoInputBox = new TextInputBox(Res.get("addCredo.userProfile"),
+                Res.get("addCredo.userProfile.prompt"));
+        credoInputBox.setPrefWidth(300);
 
         cancelButton = new Button("Cancel");
         saveButton = new Button("Save");
         HBox saveCancel = new HBox();
         saveCancel.getChildren().addAll(cancelButton, saveButton);
         saveCancel.setSpacing(20);
-        VBox credoTacSave = new VBox(bioFieldLabel,  bioField, tacFieldLabel, tacField, saveCancel);
-        credoTacSave.setSpacing(20);
 
-        HBox iconAndEdits = new HBox(nameAndIconBox, credoTacSave);
+        VBox credoTacSave = new VBox(credoInputBox, tacInputBox, saveCancel);
+        credoTacSave.setSpacing(20);
+        credoTacSave.setPadding(new Insets(50, 0, 0, 0));
+
+        HBox iconAndEdits = new HBox(50,nameAndIconBox, credoTacSave);
         iconAndEdits.setAlignment(Pos.TOP_CENTER);
 
 
 
-        VBox.setMargin(headLineLabel, new Insets(40, 0, 0, 0));
-        VBox.setMargin(subtitleLabel, new Insets(0, 0, 50, 0));
+        VBox.setMargin(headLineLabel, new Insets(2, 0, 0, 0));
+        VBox.setMargin(subtitleLabel, new Insets(0, 0, 70, 0));
         root.getChildren().addAll(
                 headLineLabel,
                 subtitleLabel,
@@ -150,8 +135,9 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
 
     protected void onViewAttached() {
         roboIconView.imageProperty().bind(model.getRoboHashImage());
-//        roboIconView.managedProperty().bind(model.getRoboHashIconVisible());
-//        roboIconView.visibleProperty().bind(model.getRoboHashIconVisible());
+        nickName.textProperty().bind(model.getNickName());
+        nym.textProperty().bind(model.getNymId());
+
 
 
     }
@@ -159,6 +145,8 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
     @Override
     protected void onViewDetached() {
         roboIconView.imageProperty().unbind();
+        nickName.textProperty().unbind();
+        nym.textProperty().unbind();
 
     }
 

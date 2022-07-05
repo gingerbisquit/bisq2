@@ -56,7 +56,7 @@ public class GenerateProfileView extends View<VBox, GenerateProfileModel, Genera
 
         Label subtitleLabel = new Label(Res.get("generateNym.subTitle"));
         subtitleLabel.setTextAlignment(TextAlignment.CENTER);
-        subtitleLabel.setMaxWidth(400);
+//        subtitleLabel.setMaxWidth(400);
         subtitleLabel.getStyleClass().addAll("bisq-text-3", "wrap-text");
 
         roboIconView = new ImageView();
@@ -93,6 +93,7 @@ public class GenerateProfileView extends View<VBox, GenerateProfileModel, Genera
 
         VBox roboVBox = new VBox(8, roboIconPane, nymIdBox);
         roboVBox.setAlignment(Pos.CENTER);
+        roboVBox.setPadding(new Insets(50, 0, 0, 0));
 
         HBox centerHhBox = new HBox(30, roboVBox, nicknameTextInputBox);
         centerHhBox.setAlignment(Pos.CENTER);
