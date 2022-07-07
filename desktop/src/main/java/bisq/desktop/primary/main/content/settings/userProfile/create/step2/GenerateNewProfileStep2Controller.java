@@ -74,14 +74,21 @@ public class GenerateNewProfileStep2Controller implements Controller {
 //        OverlayController.hide();
 //    }
 
-    public void onSave(String tac, String credo) {
-        MockChatUser existing = model.getSelectedChatUser().get();
-        MockChatUser newUser = new MockChatUser(existing.getNickName(), tac, credo);
-        model.getSelectedChatUser().set(newUser);
-        model.getChatUsers().remove(existing);
-        model.getChatUsers().add(newUser);
-        model.getIsEditable().set(false);
+    public void onSave(String text, String text1) {
         OverlayController.hide();
     }
+    public void onCancel(){
+        OverlayController.hide();
+    }
+
+//    public void onSave(String tac, String credo) {
+//        MockChatUser existing = model.getSelectedChatUser().get();
+//        MockChatUser newUser = new MockChatUser(existing.getNickName(), tac, credo);
+//        model.getSelectedChatUser().set(newUser);
+//        model.getChatUsers().remove(existing);
+//        model.getChatUsers().add(newUser);
+//        model.getIsEditable().set(false);
+//        OverlayController.hide();
+//    }
 }
 
