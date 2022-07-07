@@ -137,9 +137,10 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
         roboIconView.imageProperty().bind(model.getRoboHashImage());
         nickName.textProperty().bind(model.getNickName());
         nym.textProperty().bind(model.getNymId());
-
-
-
+        saveButton.setOnAction((event) -> {
+//            controller.onSave(tacField.getText(), bioField.getText());
+            controller.onSave(tacInputBox.getText(), credoInputBox.getText());
+        });
     }
 
     @Override

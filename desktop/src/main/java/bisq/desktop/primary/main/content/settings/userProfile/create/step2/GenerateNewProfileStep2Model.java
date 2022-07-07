@@ -20,6 +20,8 @@ package bisq.desktop.primary.main.content.settings.userProfile.create.step2;
 import bisq.desktop.common.view.Model;
 import bisq.desktop.primary.overlay.onboarding.profile.TempIdentity;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
@@ -31,4 +33,7 @@ public class GenerateNewProfileStep2Model implements Model {
     private final StringProperty nymId = new SimpleStringProperty();
     private final BooleanProperty createProfileButtonDisabled = new SimpleBooleanProperty();
     private final DoubleProperty createProfileProgress = new SimpleDoubleProperty();
+    private final ObjectProperty<MockChatUser> selectedChatUser = new SimpleObjectProperty<>();
+    private final ObservableList<MockChatUser> chatUsers = FXCollections.observableArrayList();
+    private final BooleanProperty isEditable = new SimpleBooleanProperty();
 }

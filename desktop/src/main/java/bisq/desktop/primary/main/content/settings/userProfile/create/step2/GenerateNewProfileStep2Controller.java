@@ -21,14 +21,10 @@ import bisq.application.DefaultApplicationService;
 import bisq.desktop.common.view.Controller;
 import bisq.desktop.components.robohash.RoboHash;
 import bisq.desktop.primary.overlay.OverlayController;
-import bisq.desktop.primary.overlay.onboarding.profile.GenerateProfileModel;
-import bisq.desktop.primary.overlay.onboarding.profile.GenerateProfileView;
-import bisq.desktop.primary.overlay.onboarding.profile.TempIdentity;
 import bisq.security.pow.ProofOfWorkService;
 import bisq.social.user.ChatUserService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.fxmisc.easybind.EasyBind;
 import org.fxmisc.easybind.Subscription;
 
 @Slf4j
@@ -61,21 +57,8 @@ public class GenerateNewProfileStep2Controller implements Controller {
 
     @Override
     public void onActivate() {
-//        model.nym.set(chatUser.getNym());
         model.getNickName().set(chatUserService.getSelectedChatUserIdentity().get().getNickName());
         model.getNymId().set(chatUserService.getSelectedChatUserIdentity().get().getChatUser().getNym());
-//        model.nickName.set(chatUser.getNickName());
-
-//        nickNameSubscription = EasyBind.subscribe(model.getNickName(),
-//                nickName -> {
-//                    TempIdentity tempIdentity = model.getTempIdentity().get();
-//                    if (tempIdentity != null) {
-//                        model.getNymId().set(tempIdentity.getProfileId());
-//                    }
-//
-//                    model.getCreateProfileButtonDisabled().set(model.getCreateProfileProgress().get() == -1 ||
-//                            nickName == null || nickName.isEmpty());
-//                });
         model.getRoboHashImage().set(RoboHash.getImage(chatUserService.getSelectedChatUserIdentity().get()
                 .getChatUser().getProofOfWork().getPayload()));
     }
@@ -87,7 +70,18 @@ public class GenerateNewProfileStep2Controller implements Controller {
         }
     }
 
-    private void onSave() {
+//    private void onSave() {
+//        OverlayController.hide();
+//    }
+
+    public void onSave(String tac, String credo) {
+        MockChatUser existing = model.getSelectedChatUser().get();
+        MockChatUser newUser = new MockChatUser(existing.getNickName(), tac, credo);
+        model.getSelectedChatUser().set(newUser);
+        model.getChatUsers().remove(existing);
+        model.getChatUsers().add(newUser);
+        model.getIsEditable().set(false);
         OverlayController.hide();
     }
 }
+
