@@ -24,6 +24,7 @@ import bisq.desktop.common.view.View;
 import bisq.desktop.components.controls.TextInputBox;
 import bisq.desktop.components.robohash.RoboHash;
 import bisq.desktop.primary.main.content.settings.userProfile.EditUserProfile;
+import bisq.desktop.primary.overlay.OverlayModel;
 import bisq.desktop.primary.overlay.onboarding.profile.TempIdentity;
 import bisq.i18n.Res;
 import bisq.social.user.ChatUser;
@@ -75,6 +76,8 @@ public class GenerateNewProfileStep2View extends View<VBox, GenerateNewProfileSt
         root.setAlignment(Pos.CENTER);
         root.setSpacing(8);
         root.setPadding(new Insets(10, 120, 100, 120));
+        root.setPrefWidth(OverlayModel.WIDTH);
+        root.setPrefHeight(OverlayModel.HEIGHT);
 
         Label headLineLabel = new Label(Res.get("editUserProfile.headline"));
         headLineLabel.getStyleClass().add("bisq-text-headline-2");

@@ -34,8 +34,6 @@ public class GenerateNewProfileStep2Controller implements Controller {
     protected final GenerateNewProfileStep2View view;
     protected final ChatUserService chatUserService;
     protected final ProofOfWorkService proofOfWorkService;
-//    private GenerateNewProfileStep2Model getGenerateNewProfileStep2Model;
-//    private GenerateNewProfileStep2Model getGenerateNewProfileStep2View;
 
     protected Subscription nickNameSubscription;
 
@@ -70,25 +68,22 @@ public class GenerateNewProfileStep2Controller implements Controller {
         }
     }
 
-//    private void onSave() {
-//        OverlayController.hide();
-//    }
-
-    public void onSave(String text, String text1) {
-        OverlayController.hide();
-    }
     public void onCancel(){
         OverlayController.hide();
     }
 
-//    public void onSave(String tac, String credo) {
-//        MockChatUser existing = model.getSelectedChatUser().get();
+    public void onSave(String tac, String credo) {
+        String credoFromTemp;
+        OverlayController.hide();
+        System.out.println("this are the rules__" + tac + "__and this is credo__" + credo);
+//        MockChatUser existing = chatUserService.getSelectedChatUserIdentity();
 //        MockChatUser newUser = new MockChatUser(existing.getNickName(), tac, credo);
 //        model.getSelectedChatUser().set(newUser);
 //        model.getChatUsers().remove(existing);
 //        model.getChatUsers().add(newUser);
 //        model.getIsEditable().set(false);
-//        OverlayController.hide();
-//    }
+        credoFromTemp = chatUserService.getSelectedChatUserIdentity().get().getNickName();
+        System.out.println("nickname from temp" + credoFromTemp);
+    }
 }
 

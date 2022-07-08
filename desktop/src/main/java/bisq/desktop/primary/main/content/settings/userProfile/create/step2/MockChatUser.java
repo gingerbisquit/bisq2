@@ -25,14 +25,14 @@ public class MockChatUser {
     private final String tac;
     private final String credo;
 
-    public MockChatUser(String nickName, String terms, String bio) {
+    public MockChatUser(String nickName, String tac, String credo) {
         this.nickName = nickName;
-        this.tac = terms;
-        this.credo = bio;
+        this.tac = tac;
+        this.credo = credo;
     }
 
-    @Override
-    public String toString() {
-        return nickName;
-    }
+//    @Override
+//    public String toString() {
+//        return nickName;
+//    }
 }
