@@ -31,8 +31,8 @@ public class MockChatUser {
         this.credo = credo;
     }
 
-//    @Override
-//    public String toString() {
-//        return nickName;
-//    }
+    @Override
+    public String toString() {
+        return nickName;
+    }
 }
